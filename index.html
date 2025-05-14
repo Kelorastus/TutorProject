@@ -5,10 +5,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>My Black Page</title>
   <link rel="stylesheet" href="style.css" />
+
+  <!-- Firebase v9 modular SDKs -->
+  <script type="module">
+    import { initializeApp }           from "https://www.gstatic.com/firebasejs/9.20.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs }
+      from "https://www.gstatic.com/firebasejs/9.20.0/firebase-firestore.js";
+
+    // ← Paste your config here:
+    const firebaseConfig = {
+      apiKey: "AIzaSyCrH7X6tpPjMkrNaFvSXZD4XT3MPFbXtc4",
+      authDomain: "tutorproject-dc5f6.firebaseapp.com",
+      projectId: "tutorproject-dc5f6",
+      storageBucket: "tutorproject-dc5f6.firebasestorage.app",
+      messagingSenderId: "233504825388",
+      appId: "1:233504825388:web:cd7cde8af9de73996fb189",
+      measurementId: "G-WJ5HP94HB9"
+    };
+
+    // Initialize Firebase & Firestore
+    const app = initializeApp(firebaseConfig);
+    const db  = getFirestore(app);
+
+    // Export two helper functions for your JS
+    export async function sendData(obj) {
+      try {
+        const ref = await addDoc(collection(db, "messages"), obj);
+        console.log("Written ID:", ref.id);
+      } catch (e) {
+        console.error("Firestore error:", e);
+      }
+    }
+
+    export async function fetchData() {
+      const snap = await getDocs(collection(db, "messages"));
+      return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    }
+  </script>
+
+  <!-- Your app code -->
+  <script type="module" src="script.js"></script>
 </head>
 <body>
-  <!-- Your content goes here -->
-  
-  <script src="script.js"></script>
+  <div class="container">
+    <form id="msgForm">
+      <input name="msg" placeholder="Type a message" />
+      <button type="submit">Send</button>
+    </form>
+    <ul id="msgs"></ul>
+  </div>
 </body>
 </html>
+
