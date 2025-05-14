@@ -1,0 +1,18 @@
+/* Make the whole page black */
+html, body {
+    background-color: #000;
+    color: #fff;        /* default text color */
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: sans-serif;
+  }
+  
+  /* Example container centered on page */
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  
